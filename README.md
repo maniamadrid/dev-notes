@@ -11,7 +11,7 @@ Semua file disusun berdasarkan kategori (database, backend, frontend, devops, dl
 
 ## 📘 Contoh Isi
 - `postgres-query-cheatsheet.md` → Query & operator PostgreSQL
-- `shell-cli-cheatsheet.md` → Command Git harian
+- `shell-cli-cheatsheet.md` → Command shell/cli
 
 ## 💡 Tujuan
 - Dokumentasi snippet yang sering digunakan  
