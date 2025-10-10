@@ -151,6 +151,10 @@ FROM transactions;
 -- Update status gagal
 UPDATE orders SET status = 'CANCELLED' WHERE payment_status = 'FAILED';
 
+-- Hapus semua newline dan spasi berlebih, jadikan satu spasi
+UPDATE nama_tabel
+SET nama_kolom = trim(regexp_replace(nama_kolom, E'[\\n\\r\\s]+', ' ', 'g'));
+
 -- Hapus log lama
 DELETE FROM logs WHERE created_at < NOW() - INTERVAL '90 days';
 
