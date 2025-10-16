@@ -210,7 +210,7 @@ Perlu reuse hasil query sebelumnya di query utama
 
 Analisis bertingkat (aggregate di atas aggregate)
 
-🟨 OPTIMISASI & TIPS
+🟨 OPTIMISASI
 
 -- EXISTS vs IN (lebih efisien untuk cek keberadaan data)
 SELECT * FROM orders o WHERE EXISTS (SELECT 1 FROM payments p WHERE p.order_id = o.id);
@@ -228,4 +228,64 @@ Gunakan alias singkat (o, u, p) untuk efisiensi baca.
 Hindari SELECT * di query produksi kecuali untuk debugging.
 
 Selalu tambahkan LIMIT saat eksplorasi data di database besar.
+
+
+💡 TIPS & TRICKS
+
+🔤 Manipulasi String
+
+-- Hapus semua newline & spasi berlebih
+regexp_replace(text_column, E'[\\n\\r\\s]+', ' ', 'g')
+
+-- Hapus newline tanpa spasi tambahan
+regexp_replace(text_column, E'[\\n\\r]+', '', 'g')
+
+-- Cari teks yang mengandung tanda kutip '
+WHERE text_column LIKE '%''%'
+
+-- Ganti karakter tertentu (contoh backslash)
+replace(json_request::text, E'\\', '')
+
+🧩 Regex & Array Functions
+
+-- Cari semua match regex di dalam string
+SELECT regexp_matches('abc123def456', '[0-9]+', 'g');
+-- → {123, 456}
+
+-- Pecah string berdasarkan delimiter (hasilnya array)
+SELECT regexp_split_to_array('a,b,c,d', ',');
+-- → {a,b,c,d}
+
+-- Alternatif tanpa regex
+SELECT string_to_array('x|y|z', '|');
+-- → {x,y,z}
+
+-- Gabungkan kembali array menjadi string
+SELECT array_to_string(ARRAY['a','b','c'], ', ');
+-- → 'a, b, c'
+
+-- Kombinasi cepat split-join
+SELECT array_to_string(string_to_array('a|b|c', '|'), ', ');
+-- → 'a, b, c'
+
+🧠 JSON & JSONB Tricks
+
+-- Tampilkan semua key dari kolom JSON
+SELECT jsonb_object_keys(payload)
+FROM webhook_events
+WHERE awb = '123456';
+
+-- Ambil nilai tertentu
+SELECT payload ->> 'status' AS status
+FROM webhook_events;
+
+-- Iterasi key-value JSON
+SELECT key, value
+FROM jsonb_each(payload);
+
+
+
+
+
+
 
