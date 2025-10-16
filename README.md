@@ -7,7 +7,7 @@ Semua file disusun berdasarkan kategori (database, backend, frontend, devops, dl
 ## 📂 Struktur
 - **cheatsheets/** → Ringkasan cepat & referensi harian  
 - **snippets/** → Potongan kode siap pakai  
-- **docs/** → Catatan konsep, praktik, atau panduan
+- **learning/** → Catatan belajar, konsep, praktik
 
 ## 📘 Contoh Isi
 - `postgres-query-cheatsheet.md` → Query & operator PostgreSQL
