@@ -101,6 +101,10 @@ JSON_AGG() berguna untuk hasil API
 -- Ambil field dalam kolom JSON
 SELECT json_data ->> 'msg' AS message FROM api_logs;
 
+Catatan (Gotcha) :
+- msg harus dalam tanda petik dua ('')
+- jika msg tidak dalam tanda petik dua ('') dan ada kolom msg dalam tabel, maka NULL (tidak error)
+
 -- Filter berdasarkan isi JSON
 SELECT * FROM api_logs WHERE (json_data ->> 'code') != '1';
 SELECT * FROM api_logs WHERE (json_data ->> 'msg') != 'success';
@@ -166,7 +170,7 @@ CREATE TEMP TABLE temp_users AS SELECT * FROM users WHERE active = false;
 -- Lihat struktur tabel
 \d table_name
 
--- Lihat tipe data kolom
+-- Lihat tipe data kolom (desc)
 SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'users';
 
 🟦 CTE (Common Table Expression)
