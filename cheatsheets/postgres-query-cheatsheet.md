@@ -283,6 +283,18 @@ FROM webhook_events;
 SELECT key, value
 FROM jsonb_each(payload);
 
+-- Lateral JOIN with JSON 
+SELECT 
+  o.id,
+  o.customer,
+  elem->>'item' AS item_name,
+  (elem->>'qty')::int AS quantity
+FROM orders o
+CROSS JOIN LATERAL jsonb_array_elements(o.json_items) elem;
+
+
+
+
 
 
 
