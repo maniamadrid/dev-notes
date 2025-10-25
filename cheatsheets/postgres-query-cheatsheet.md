@@ -96,22 +96,6 @@ STRING_AGG() cocok untuk laporan
 
 JSON_AGG() berguna untuk hasil API
 
-🟧 JSON FIELD HANDLING
-
--- Ambil field dalam kolom JSON
-SELECT json_data ->> 'msg' AS message FROM api_logs;
-
-Catatan (Gotcha) :
-- msg harus dalam tanda petik dua ('')
-- jika msg tidak dalam tanda petik dua ('') dan ada kolom msg dalam tabel, maka NULL (tidak error)
-
--- Filter berdasarkan isi JSON
-SELECT * FROM api_logs WHERE (json_data ->> 'code') != '1';
-SELECT * FROM api_logs WHERE (json_data ->> 'msg') != 'success';
-
--- Akses nested key
-SELECT json_data -> 'data' ->> 'zone' AS zone FROM api_logs;
-
 🟪 VALIDATION & DUPLICATE CHECK
 
 -- Cek reference_id yang punya lebih dari satu record unik
@@ -270,14 +254,25 @@ SELECT array_to_string(string_to_array('a|b|c', '|'), ', ');
 
 🧠 JSON & JSONB Tricks
 
+-- Ambil field dalam kolom JSON
+SELECT json_data ->> 'msg' AS message FROM api_logs;
+
+Catatan (Gotcha) :
+- msg harus dalam tanda petik dua ('')
+- jika msg tidak dalam tanda petik dua ('') dan ada kolom msg dalam tabel, maka NULL (tidak error)
+
+-- Filter berdasarkan isi JSON
+SELECT * FROM api_logs WHERE (json_data ->> 'code') != '1';
+SELECT * FROM api_logs WHERE (json_data ->> 'msg') != 'success';
+
+-- Akses nested key
+SELECT json_data -> 'data' ->> 'zone' AS zone FROM api_logs;
+
+
 -- Tampilkan semua key dari kolom JSON
 SELECT jsonb_object_keys(payload)
 FROM webhook_events
 WHERE awb = '123456';
-
--- Ambil nilai tertentu
-SELECT payload ->> 'status' AS status
-FROM webhook_events;
 
 -- Iterasi key-value JSON
 SELECT key, value
