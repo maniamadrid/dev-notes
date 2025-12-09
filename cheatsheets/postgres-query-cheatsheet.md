@@ -252,6 +252,37 @@ SELECT array_to_string(ARRAY['a','b','c'], ', ');
 SELECT array_to_string(string_to_array('a|b|c', '|'), ', ');
 -- → 'a, b, c'
 
+-- Quick Data Comparison Using VALUES (No Temp Table Needed)
+-- Contoh perbandingan data
+WITH external_data(col) AS (
+    VALUES (...)
+)
+SELECT *
+FROM real_table t
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM external_data e
+    WHERE e.col = t.col
+);
+
+-- use case : Gudang kirim list SKU yang siap dikirim hari ini.
+-- Yang mau kita cek : barang apa di sistem yang tidak ada di list tersebut.
+
+WITH ready_to_ship(sku) AS (
+    VALUES
+        ('SKU-001'),
+        ('SKU-003'),
+        ('SKU-005')
+)
+SELECT i.sku, i.product_name
+FROM inventory i
+WHERE i.status = 'READY'
+AND NOT EXISTS (
+    SELECT 1
+    FROM ready_to_ship r
+    WHERE r.sku = i.sku
+);
+
 🧠 JSON & JSONB Tricks
 
 -- Ambil field dalam kolom JSON
