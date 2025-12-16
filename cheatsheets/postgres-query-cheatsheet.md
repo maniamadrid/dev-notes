@@ -121,6 +121,10 @@ SELECT * FROM transactions WHERE created_at >= NOW() - INTERVAL '7 days';
 -- Ambil bulan & tahun
 SELECT EXTRACT(MONTH FROM created_at) AS month, EXTRACT(YEAR FROM created_at) AS year FROM orders;
 
+-- Menampilkan tanggal dengan format
+-- Format: 'YYYY-MM-DD HH24:MI:SS'
+SELECT to_char(created_at, 'YYYY-MM-DD HH24:MI:SS') AS formatted_date FROM orders;
+
 🟫 CONDITIONAL & NULL HANDLING
 
 -- Ganti null jadi default
