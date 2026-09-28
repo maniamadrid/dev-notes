@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Virtual DOM Example - Vanilla JS</title>
+</head>
+<body>
+  <h2>Vanilla JS (Imperatif)</h2>
+  <ul id="list">
+    <li>A</li>
+    <li>B</li>
+    <li>C</li>
+  </ul>
+  <button id="add">Tambah Item</button>
+
+  <script>
+    const list = document.getElementById('list');
+    const button = document.getElementById('add');
+    let counter = 0;
+
+    // Tambahkan observer untuk memantau perubahan DOM
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((m) => {
+        console.log('DOM berubah:', m);
+      });
+    });
+
+    observer.observe(list, { childList: true, subtree: true });
+
+    // Tombol untuk menambah item baru langsung ke DOM
+    button.addEventListener('click', () => {
+      const newItem = document.createElement('li');
+      newItem.textContent = `Item ${++counter}`;
+      list.appendChild(newItem);
+      console.log(`Tambah elemen ke DOM: Item ${counter}`);
+    });
+  </script>
+</body>
+</html>
